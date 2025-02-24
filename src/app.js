@@ -4,6 +4,7 @@ const app = express();
 
 const allowedOrigins = [
   "https://jaipur-jwellers-frontend.vercel.app",
+  "https://jaipur-jewellers-frontend.vercel.app",
   "http://localhost:5173",
   "http://localhost:8000",
   "https://jaipurjeweller.com",
