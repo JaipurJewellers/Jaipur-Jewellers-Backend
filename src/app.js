@@ -8,7 +8,7 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:8000",
   "https://jaipurjeweller.com",
-  " https://www.jaipurjeweller.com",
+  "https://www.jaipurjeweller.com",
   "https://jaipur-jewellers-backend.vercel.app",
 ]; // Add any other origins you need
 
