@@ -10,6 +10,7 @@ const allowedOrigins = [
   "https://jaipurjeweller.com",
   "https://www.jaipurjeweller.com",
   "https://jaipur-jewellers-backend.vercel.app",
+  "https://jaipur-jewellers-backend.onrender.com"
 ]; // Add any other origins you need
 
 app.use(
