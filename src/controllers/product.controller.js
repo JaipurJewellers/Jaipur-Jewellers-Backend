@@ -212,13 +212,43 @@ export const updateProduct = async (req, res) => {
         if (width) updateData.width = width;
         if (height) updateData.height = height;
         if (depth) updateData.depth = depth;
-        if (image1Color) updateData["Image1.color"] = image1Color;
-        if (image2Color) updateData["Image2.color"] = image2Color;
-        if (image3Color) updateData["Image3.color"] = image3Color;
+        // if (image1Color) updateData["Image1.color"] = image1Color;
+        // if (image2Color) updateData["Image2.color"] = image2Color;
+        // if (image3Color) updateData["Image3.color"] = image3Color;
         if (quantityPrices) updateData.quantityPrices = JSON.parse(quantityPrices);
         if (details) {
             updateData.details = JSON.parse(details).map(detail => ({ details: detail }));
         }
+
+        // if (req.files) {
+        //     if (req.files.Image) {
+        //         console.log("image", req.files.Image[0])
+        //         const image = await uploadOnCloudinary(req.files.Image[0].path);
+        //         updateData.Image = image.secure_url;
+        //     }
+        //     if (req.files.Image1) {
+        //         console.log("image1", req.files.Image1[0])
+        //         const image1 = await uploadOnCloudinary(req.files.Image1[0].path);
+        //         console.log("image 1 data : ", image1)
+        //         updateData.Image1 = updateData.Image1 || {}; // Ensure object exists
+        //         updateData.Image1.image = image1.secure_url;
+        //         // updateData.Image1.image = image1.secure_url;
+        //     }
+        //     if (req.files.Image2) {
+        //         console.log("image2", req.files.Image2[0])
+        //         const image2 = await uploadOnCloudinary(req.files.Image2[0].path);
+        //         // updateData.Image2.image = image2.secure_url;
+        //         updateData.Image2 = updateData.Image2 || {}; // Ensure object exists
+        //         updateData.Image2.image = image2.secure_url;
+        //     }
+        //     if (req.files.Image3) {
+        //         console.log("image3", req.files.Image3[0])
+        //         const image3 = await uploadOnCloudinary(req.files.Image3[0].path);
+        //         // updateData.Image3.image = image3.secure_url;
+        //         updateData.Image3 = updateData.Image3 || {}; // Ensure object exists
+        //         updateData.Image3.image = image3.secure_url;
+        //     }
+        // }
 
         if (req.files) {
             if (req.files.Image) {
@@ -227,16 +257,26 @@ export const updateProduct = async (req, res) => {
             }
             if (req.files.Image1) {
                 const image1 = await uploadOnCloudinary(req.files.Image1[0].path);
-                updateData.Image1.image = image1.secure_url;
+                updateData.Image1 = { image: image1.secure_url, color: image1Color || "181818" };
             }
             if (req.files.Image2) {
                 const image2 = await uploadOnCloudinary(req.files.Image2[0].path);
-                updateData.Image2.image = image2.secure_url;
+                updateData.Image2 = { image: image2.secure_url, color: image2Color || "181818" };
             }
             if (req.files.Image3) {
                 const image3 = await uploadOnCloudinary(req.files.Image3[0].path);
-                updateData.Image3.image = image3.secure_url;
+                updateData.Image3 = { image: image3.secure_url, color: image3Color || "181818" };
             }
+        }
+        
+        if (!req.files?.Image1 && image1Color) {
+            updateData["Image1.color"] = image1Color;
+        }
+        if (!req.files?.Image2 && image2Color) {
+            updateData["Image2.color"] = image2Color;
+        }
+        if (!req.files?.Image3 && image3Color) {
+            updateData["Image3.color"] = image3Color;
         }
 
         // Perform the update operation
@@ -255,6 +295,7 @@ export const updateProduct = async (req, res) => {
             res.status(400).json({ success: false, message: "Error updating product" });
         }
     } catch (error) {
+        console.log("error : ", error)
         res.status(500).json({ success: false, message: error.message });
     }
 };
