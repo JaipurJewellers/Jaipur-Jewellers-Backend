@@ -331,92 +331,92 @@ export const deleteProduct = async (req, res) => {
         });
     }
 }
-export const createProductFromExcel = async (req, res) => {
-    try {
-        // ✅ Correct File Path
-        const filePath = path.resolve("C:/Users/Dell/Desktop/JaipurJwellers/Jaipur_Jwellers_Backend/data/product.xlsx");
+// export const createProductFromExcel = async (req, res) => {
+//     try {
+//         // ✅ Correct File Path
+//         const filePath = path.resolve("C:/Users/Dell/Desktop/JaipurJwellers/Jaipur_Jwellers_Backend/data/product.xlsx");
 
-        // ✅ Check if file exists
-        if (!fs.existsSync(filePath)) {
-            return res.status(404).json({ error: "File not found at " + filePath });
-        }
+//         // ✅ Check if file exists
+//         if (!fs.existsSync(filePath)) {
+//             return res.status(404).json({ error: "File not found at " + filePath });
+//         }
 
-        // ✅ Read the Excel file
-        const workbook = xlsx.readFile(filePath);
-        const sheetName = workbook.SheetNames[0];
-        const sheetData = xlsx.utils.sheet_to_json(workbook.Sheets[sheetName]);
+//         // ✅ Read the Excel file
+//         const workbook = xlsx.readFile(filePath);
+//         const sheetName = workbook.SheetNames[0];
+//         const sheetData = xlsx.utils.sheet_to_json(workbook.Sheets[sheetName]);
 
-        // ✅ Array to store products
-        let products = [];
+//         // ✅ Array to store products
+//         let products = [];
 
-        // ✅ Loop through each row in Excel file
-        for (const item of sheetData) {
-            const {
-                name,
-                product_id,
-                desc,
-                category,
-                countInStock,
-                price,
-                model,
-                weight,
-                width,
-                height,
-                depth,
-                details,
-                Image,
-                Image1,
-                Image2,
-                Image3,
-                image1Color,
-                image2Color,
-                image3Color
-            } = item;
+//         // ✅ Loop through each row in Excel file
+//         for (const item of sheetData) {
+//             const {
+//                 name,
+//                 product_id,
+//                 desc,
+//                 category,
+//                 countInStock,
+//                 price,
+//                 model,
+//                 weight,
+//                 width,
+//                 height,
+//                 depth,
+//                 details,
+//                 Image,
+//                 Image1,
+//                 Image2,
+//                 Image3,
+//                 image1Color,
+//                 image2Color,
+//                 image3Color
+//             } = item;
 
-            // ✅ Check if product already exists
-            const isProductExist = await Product.findOne({ product_id });
-            if (isProductExist) {
-                console.log(`⚠️ Product already exists: ${product_id}`);
-                continue; // Skip this product if it already exists
-            }
+//             // ✅ Check if product already exists
+//             const isProductExist = await Product.findOne({ product_id });
+//             if (isProductExist) {
+//                 console.log(`⚠️ Product already exists: ${product_id}`);
+//                 continue; // Skip this product if it already exists
+//             }
 
 
-            // ✅ Create Product Object
-            const productData = {
-                name,
-                product_id,
-                desc,
-                category,
-                countInStock: countInStock || 0,
-                model,
-                weight,
-                width,
-                height,
-                depth,
-                details: details ? details.split(",").map((detail) => ({ details: detail.trim() })) : [],
-                quantityPrices: [
-                    {
-                        price,
-                    }
-                ],
-                Image,
-                Image1,
-                Image2,
-                Image3,
-            };
+//             // ✅ Create Product Object
+//             const productData = {
+//                 name,
+//                 product_id,
+//                 desc,
+//                 category,
+//                 countInStock: countInStock || 0,
+//                 model,
+//                 weight,
+//                 width,
+//                 height,
+//                 depth,
+//                 details: details ? details.split(",").map((detail) => ({ details: detail.trim() })) : [],
+//                 quantityPrices: [
+//                     {
+//                         price,
+//                     }
+//                 ],
+//                 Image,
+//                 Image1,
+//                 Image2,
+//                 Image3,
+//             };
 
-            products.push(productData);
-        }
+//             products.push(productData);
+//         }
 
-        // ✅ Insert all products into MongoDB
-        if (products.length > 0) {
-            await Product.insertMany(products);
-            res.status(201).json({ success: true, message: "Products inserted successfully", count: products.length });
-        } else {
-            res.status(400).json({ success: false, message: "No new products to insert" });
-        }
-    } catch (error) {
-        console.error("❌ Error inserting products:", error);
-        res.status(500).json({ success: false, message: "Failed to insert products" });
-    }
-};
+//         // ✅ Insert all products into MongoDB
+//         if (products.length > 0) {
+//             await Product.insertMany(products);
+//             res.status(201).json({ success: true, message: "Products inserted successfully", count: products.length });
+//         } else {
+//             res.status(400).json({ success: false, message: "No new products to insert" });
+//         }
+//     } catch (error) {
+//         console.error("❌ Error inserting products:", error);
+//         res.status(500).json({ success: false, message: "Failed to insert products" });
+//     }
+// };
