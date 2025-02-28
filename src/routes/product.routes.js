@@ -1,5 +1,5 @@
 import Router from 'express'
-import { createProduct, deleteProduct, getAllProducts, getSingleProduct, updateProduct,createProductFromExcel } from '../controllers/product.controller.js'
+import { createProduct, deleteProduct, getAllProducts, getSingleProduct, updateProduct } from '../controllers/product.controller.js'
 import { upload } from '../middleware/multer.middleware.js'
 
 const router = Router()
@@ -23,10 +23,10 @@ router.route("/update-product/:product_id").put(upload.fields([
 
 router.route("/delete-product/:id").delete(deleteProduct)
 
-router.route("/create2").post(upload.fields([
-    { name: "Image", maxCount: 1 },
-    { name: "Image1", maxCount: 1 },
-    { name: "Image2", maxCount: 1 },
-    { name: "Image3", maxCount: 1 },
-]),createProductFromExcel)
+// router.route("/create2").post(upload.fields([
+//     { name: "Image", maxCount: 1 },
+//     { name: "Image1", maxCount: 1 },
+//     { name: "Image2", maxCount: 1 },
+//     { name: "Image3", maxCount: 1 },
+// ]),createProductFromExcel)
 export default router
