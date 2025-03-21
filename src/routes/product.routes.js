@@ -1,10 +1,10 @@
 import Router from 'express'
-import { createProduct, deleteProduct, getAllProducts, getSingleProduct, updateProduct } from '../controllers/product.controller.js'
+import { addAlllProducts, createProduct, deleteProduct, getAllProducts, getSingleProduct, updateProduct } from '../controllers/product.controller.js'
 import { upload } from '../middleware/multer.middleware.js'
 
 const router = Router()
 
-
+router.route('/add-data').post(addAlllProducts)
 router.route('/get-all-products').get(getAllProducts)
 router.route('/:id').get(getSingleProduct)
 router.route('/create-product').post(upload.fields([

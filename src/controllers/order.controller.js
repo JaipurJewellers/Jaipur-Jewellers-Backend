@@ -18,7 +18,6 @@ export const createOrder = async (req, res) => {
             createdAt: new Date(),
         });
 
-        console.log("New Order:", newOrder);
         // Save the order to the database
         const savedOrder = await newOrder.save();
         res.status(201).json(savedOrder);
