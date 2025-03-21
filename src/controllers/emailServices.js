@@ -28,7 +28,6 @@ export const sendContactToAdmin = async (email, message, name) => {
 
 export const mail_contact = async(app_details) => {
     
-    console.info("Initializing mail sender...");
     const {email} = app_details;
     let transporter = nodemailer.createTransport({
       service: "gmail",
@@ -41,7 +40,6 @@ export const mail_contact = async(app_details) => {
       },
     });
   
-    console.info("Transporter created successfully!");
   
     // Ensure Handlebars is correctly set up
     transporter.use(
@@ -57,7 +55,6 @@ export const mail_contact = async(app_details) => {
       })
     );
   
-    console.info("Handlebars engine configured!");
     let templateName = "message";
 
     let mailOptions = {
@@ -71,7 +68,6 @@ export const mail_contact = async(app_details) => {
 
     try {
       await transporter.sendMail(mailOptions);
-      console.info(`Email sent to ${email}`);
     } catch (error) {
       console.log("Error sending email:", error);
       throw new Error("Failed to Send Mail.");

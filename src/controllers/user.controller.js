@@ -86,7 +86,6 @@ export const signup = async (req, res) => {
 
 export const login = async (req, res) => {
     const { identifier, password } = req.body; // Use "identifier" instead of "email"
-      console.log(identifier, password);
     try {
         // Check if identifier is an email or a phone number
         const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier); // Email regex
@@ -99,11 +98,9 @@ export const login = async (req, res) => {
 
         // Check if the password is valid
         const isMatch = await user.isPasswordValid(password);
-        console.log('hi','kyu nahi aa raha');
         if (!isMatch) {
             return res.status(400).json({ error: "Incorrect password" });
         }
-        console.log(user);
           
         // Generate JWT token
         const token = jwt.sign(
@@ -112,7 +109,6 @@ export const login = async (req, res) => {
             { expiresIn: "1h" }
         );
         
-        console.log('token','kyu nahi aa raha');
         res.status(200).json({ message: "Login successful", token });
     } catch (error) {
         res.status(500).json({ error: "Error logging in user" });
@@ -153,7 +149,6 @@ export const forgetPasswordReset = async (req, res) => {
     const { phoneNumber, newPassword } = req.body;
 
     // Log the incoming request for debugging
-    console.log("Phone Number:", phoneNumber, "New Password:", newPassword);
 
     // Validate input
     if (!phoneNumber || !newPassword) {

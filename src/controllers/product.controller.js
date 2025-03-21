@@ -5,6 +5,80 @@ import xlsx from "xlsx";
 import path from "path";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
+
+export const addAlllProducts = async (req, res) => {
+    try {
+      const workbook = xlsx.readFile(
+        "C:/Users/admin/Desktop/projects/Jaipur_Jwellers_Backend/src/script/Product_details.xlsx"
+      ); // Adjust path accordingly
+      const sheetName = workbook.SheetNames[0];
+      const data = xlsx.utils.sheet_to_json(workbook.Sheets[sheetName]);
+  
+      // Transform Data
+      const products = data.map((item) => ({
+        name: item.Name,
+        product_id: item["Product ID"],
+        Image: item["Main Images"],
+        Image1: {
+          image: item["Extra Image 1"] || "",
+          color: item["Extra Image 1 Color"]?.trim() || "181818",
+        },
+        Image2: {
+          image: item["Extra Image 2"] || "",
+          color: item["Extra Image 2 Color"]?.trim() || "181818",
+        },
+        Image3: {
+          image: item["Extra Image 3"] || "",
+          color: item["Extra Image 3 Color"]?.trim() || "181818",
+        },
+        desc: item.Description,
+        category: item.Category,
+        countInStock: item["Count in Stock"],
+        model: item.Model,
+        weight: item.Weight,
+        width: item.Width || "",
+        height: item.Height || "",
+        depth: item.Depth || "",
+        details: item.Details ? [{ details: item.Details }] : [],
+        quantityPrices: parseQuantityPrices(item["Quantity "], item["Price "]), // Notice the space
+      }));
+  
+      await Product.insertMany(products);
+      return res
+        .status(200)
+        .json({
+          message: "Data successfully inserted...",
+          data: data[0],
+          product: products[0],
+        });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        error: error.message,
+      });
+    }
+  };
+  
+  // ✅ Function to Handle Quantity & Prices Correctly
+  function parseQuantityPrices(quantityStr, priceStr) {
+    if (!quantityStr || !priceStr) return [];
+  
+    // Trim strings and split by comma if multiple values exist
+    const quantities = quantityStr.toString().trim().split(",").map((q) => q.trim());
+    const prices = priceStr.toString().trim().split(",").map((p) => parseFloat(p.trim()));
+  
+    // Check for mismatched quantity-price pairs
+    if (quantities.length !== prices.length) {
+      console.error("Mismatch in quantity and price pairs:", { quantityStr, priceStr });
+      return [];
+    }
+  
+    return quantities.map((q, index) => ({
+      quantity: q,
+      price: prices[index],
+    }));
+  }
+
 // get all products
 export const getAllProducts = async (req, res) => {
     try {
