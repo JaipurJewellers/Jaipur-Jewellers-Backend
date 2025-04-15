@@ -41,11 +41,13 @@ import orderRouter from "./routes/order.routes.js";
 import productRouter from "./routes/product.routes.js";
 import adminRouter from "./routes/admin.routes.js";
 import contactRoute from "./routes/contact.routes.js";
+import favoriteRoute from "./routes/favorite.routes.js"
 
 app.use("/api/v1/contact", contactRoute);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/orders", orderRouter);
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/admin", adminRouter);
+app.use("/api/v1/favorites", favoriteRoute);
 
 export default app;
