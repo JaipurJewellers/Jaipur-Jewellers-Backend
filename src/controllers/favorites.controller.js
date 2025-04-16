@@ -1,14 +1,12 @@
 import Favorite from '../model/favorite.model.js';
 import {Product} from '../model/product.model.js';
 
-// Add product to favorites
+
 export const addToFavorites = async (req, res) => {
   try {
-    console.log("req.body -> ", req.body)
     const { productId } = req.body;
-    const userId = req.id;
+    const userId = req.user.id;
 
-    // Check if already favorited
     const existingFavorite = await Favorite.findOne({ user: userId, product: productId });
     if (existingFavorite) {
       return res.status(400).json({ message: 'Product already in favorites' });
@@ -32,12 +30,12 @@ export const addToFavorites = async (req, res) => {
   }
 };
 
-// Remove product from favorites
+
 export const removeFromFavorites = async (req, res) => {
   try {
     const { productId } = req.params;
-    const userId = req.user._id;
-
+    const userId = req.user.id;
+    
     const favorite = await Favorite.findOneAndDelete({ 
       user: userId, 
       product: productId 
@@ -57,19 +55,21 @@ export const removeFromFavorites = async (req, res) => {
   }
 };
 
-// Get user's favorites with product details
+
 export const getUserFavorites = async (req, res) => {
   try {
-    const userId = req.user._id;
+    const userId = req.user.id;
 
-    const favorites = await Favorite.find({ user: userId })
-      .populate('products')
-      .sort({ createdAt: -1 });
+    const favorites = await Favorite.find({ user: userId }).sort({ createdAt: -1 }).lean();
+
+    const productIds = favorites.map(fav => fav.product);
+
+    const products = await Product.find({product_id: {$in: productIds}}).lean()
 
     res.json({
       success: true,
-      count: favorites.length,
-      favorites
+      count: products.length,
+      products
     });
   } catch (error) {
     console.error('Error getting favorites:', error);

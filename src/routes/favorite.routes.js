@@ -7,7 +7,6 @@ import {
 import protectRoutes from '../utils/protectedRoutes.js';
 
 const router = express.Router();
-console.log('hii')
 router.post('/add', protectRoutes.authenticateToken, addToFavorites);
 router.delete('/remove/:productId', protectRoutes.authenticateToken, removeFromFavorites);
 router.get('/my-favorites', protectRoutes.authenticateToken, getUserFavorites);
