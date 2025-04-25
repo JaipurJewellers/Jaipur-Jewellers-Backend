@@ -7,11 +7,6 @@ const orderSchema = new Schema({
         required: true,
         ref: "User", // Reference to User model
     },
-    // merchantId: {
-    //     type: String,
-    //     required: true,
-    // },
-
     items: [
         {
             name: { type: String, required: true },
@@ -31,15 +26,10 @@ const orderSchema = new Schema({
         note: { type: String, required: true },
     },
     amount: { type: Number, required: true },
-    // MUID: {
-    //     type: String,
-    //     required: true,
-    // },
-    // merchantTransactionId: {
-    //     type: String,
-    //     required: true,
-    // },
-
+    transactionId: {
+        type: String,
+        required: true,
+    },
     status: {
         type: String,
         enum: ["paid", "unpaid"],
