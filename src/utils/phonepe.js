@@ -103,8 +103,8 @@ export async function verifyPayments(transactionId) {
 
         const options2 = {
             method: "Get",
-            url: `https://api-preprod.phonepe.com/apis/pg-sandbox/checkout/v2/order/${transactionId}/status`, // this is for local testing
-            // url: `https://api.phonepe.com/apis/pg/checkout/v2/order/${transactionId}/status`, // this is for production
+            // url: `https://api-preprod.phonepe.com/apis/pg-sandbox/checkout/v2/order/${transactionId}/status`, // this is for local testing
+            url: `https://api.phonepe.com/apis/pg/checkout/v2/order/${transactionId}/status`, // this is for production
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `O-Bearer ${token}`,
