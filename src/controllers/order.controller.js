@@ -6,7 +6,7 @@ export const createOrder = async (req, res) => {
     try {
         const { userId, cartItems = [], shippingInfo, totalPrice, transactionId } = req.body;
 
-        const response = await processPayment(req.body, 'http://localhost:5173/order-confirm/')
+        const response = await processPayment(req.body, 'https://www.jaipurjeweller.com/order-confirm/')
 
         if (response.redirectUrl) {
             // Create the order
