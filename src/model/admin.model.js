@@ -3,6 +3,11 @@ import mongoose from 'mongoose';
 
 const adminSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
+    role: {
+        type: String,
+        enum: ['Admin', 'SuperAdmin'],
+        default: 'Admin',
+      },
     password: { type: String, required: true },
 });
 

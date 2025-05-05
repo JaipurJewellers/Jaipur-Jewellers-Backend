@@ -50,7 +50,8 @@ export const login = async (req, res) => {
 
     return res
         .status(200)
-        .json({ message: "Authentication Complete", token, id: user._id });
+        .json({ message: "Authentication Complete", token, id: user._id, role: user.role
+         });
 }
 
 export const addBlog = async (req, res) => {
